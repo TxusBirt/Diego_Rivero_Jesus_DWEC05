@@ -1,0 +1,10 @@
+.datos {
+    margin:1%;
+  
+}
+button, input {
+    border:2px solid rgb(192, 186, 186);
+    box-shadow: 2px 2px rgb(144, 142, 142);
+    background-color:rgb(233, 232, 234);
+    color:rgb(65, 63, 61)
+}

@@ -1,0 +1,67 @@
+<!-- Titulo-->
+<h1>Juego de Adivinación de Números Aleatorios - DWEC05</h1>
+<!-- Datos del juego -->
+<h2>Parámetros de configuración del juego</h2>
+<!-- formulario de introducción de datos-->
+<form>
+  <div class="datos">Nombre: <br><input type="text" [(ngModel)]="nombre" name="nombre" [disabled]="activarJuego"></div>
+  <div class="datos">Apellido: <br><input type="text" [(ngModel)]="apellido" name="apellido" [disabled]="activarJuego"></div>
+  <div class="datos">Rango: <br><input type="number" min="0" [(ngModel)]="rango" name="rango" [disabled]="activarJuego"></div>
+  <div class="datos">Intentos: <br><input type="number" min="0" [(ngModel)]="intento" name="intento" [disabled]="activarJuego"></div>
+  <input type="submit" class="datos" (click)="agregarUsuario()" [disabled]="activarJuego" value="Recoger datos">
+</form>
+<hr>
+<!-- Elementos del juego-->
+<!-- Condicional para que el elemento se pinte sólo si los datos se introdicen correctamente -->
+<div class="datos" *ngIf="activarJuego">
+  <h2>Ongi Etorri {{miUsuario.nombre }} {{miUsuario.apellido }}</h2>
+</div>
+<!-- elemento para  que el usuario introduzca el número -->
+<div class="datos" >Introduce el Número a Adivinar <br><input type="number" min="0"  [(ngModel)]="numUsuario" name="adivina" [disabled]="bloqueado"> </div>
+<div class="datos" *ngIf="activarJuego">
+  <p>Numero de intentos restantes {{miUsuario.intentos}}</p>
+</div>
+<!-- elementos que se pintan cuando envío el primer número que introduzco-->
+<div class="datos" *ngIf="activarJuego && mensaje!=''">
+  <p> ¿Has adivinado el número? {{mensaje}}</p>
+</div>
+<!-- boton para enviar el numero introducido-->
+<button class="datos" (click)="adivinarNumero()" [disabled]="bloqueado">Enviar</button>
+<!-- estructura if else  para que una vez se finalice el juego se pinte una cosa u otra 
+    en función de si se ha adivinado el número o no 
+    -->
+<div *ngIf="acierto; else noAcierto">
+    <p> Enhorabuena, has adivinado el número:</p>
+  <ul>
+    <li *ngFor="let numero of numeros; let i=index"> 
+      <!-- estructura if else  para que se pinte que se pinte de distinta forma la fila 
+        donde está el número buscado-->
+      <span *ngIf="numero==numeroAleatorio; else listaNumeros"> 
+        El número ganador ha sido el {{numero}} y lo has introducido en el intento {{i+1}}
+      </span>
+      <!-- en caso de los números que no coinciden con el buscado la lista se pinta de forma estandar -->
+      <ng-template #listaNumeros>
+        Número elegido en el intento {{i + 1}} ha sido el {{numero}}
+      </ng-template>
+    </li>
+  </ul>
+  <!-- boton que da la opción de volver a jugar -->
+  <button (click)="recargarPagina()">Vover a jugar</button>
+</div>
+<!-- Plantilla que se usa para pintra la lista de números introducidos 
+    para el caso de no acertar el número
+    -->
+<ng-template #noAcierto>
+  <div class="datos" *ngIf="miUsuario.intentos==0 && activarJuego">
+    <p> Lo sentimos, se han acabado los intentos: el número buscado era el {{numeroAleatorio}}</p>
+    <ul>
+      <li *ngFor="let numero of numeros; let i=index"> 
+        Número elegido en el intento {{i + 1}} ha sido el {{numero}}
+      </li>
+    </ul>
+    <!-- boton que da la opción de volver a jugar -->
+    <button (click)="recargarPagina()">Vover a jugar</button>
+  </div>
+</ng-template>
+
+<router-outlet />
