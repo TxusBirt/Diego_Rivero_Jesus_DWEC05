@@ -1,4 +1,4 @@
-// Clase que se utiliza de modelo de datos
+// Clase que se utiliza de modelo de datos.
 // con los atributos que corresponden con los 
 // datos que se quieren guardar
 export class Configuracion {
